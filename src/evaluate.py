@@ -14,13 +14,14 @@ params = yaml.safe_load(open("params.yaml"))["train"]
 def evaluate(data_path, model_path):
     data = pd.read_csv(data_path)
     X= data.drop(columns=["Outcome"])
-    y= data["Output"]
+    y= data["Outcome"]
     
     ##setting mlflow tracking url:
     mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
     
     ##loading the model from the model 
-    model = pickle.load(open(model_path),'rb')
+    model = pickle.load(open(model_path, 'rb'))
+
     
     predictions = model.predict(X)
     accuracy = accuracy_score(y,predictions)
